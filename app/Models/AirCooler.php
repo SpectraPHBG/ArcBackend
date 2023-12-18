@@ -9,4 +9,9 @@ class AirCooler extends Model
 {
     protected $table = 'air_coolers';
     use HasFactory;
+
+    public function sockets()
+    {
+        return $this->belongsToMany(Socket::class, 'air_coolers_sockets', 'cooler_id', 'socket_id');
+    }
 }

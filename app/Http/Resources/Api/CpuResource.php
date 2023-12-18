@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Api;
 
 use App\Models\Brand;
+use App\Models\CpuSeries;
 use App\Models\MemoryType;
 use App\Models\Socket;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -22,16 +23,19 @@ class CpuResource extends JsonResource
         $cpuSocket = Socket::findOrFail($this->socket_id);
         $cpuMemory = MemoryType::findOrFail($this->memory_id);
         $cpuMemory2 = MemoryType::find($this->memory2_id);
-        return [
+        $series = CpuSeries::findOrFail($this->series_id);
+
+        $cpu = [
             'id' => $this->id,
             'brand' => ["id" => $cpuBrand->id,"name" => $cpuBrand->name],
             'name' => $this->name,
             'socket' =>["id" => $cpuSocket->id,"name" => $cpuSocket->name],
+            'series' => $series->name,
             'cores' => $this->cores,
             'threads' => $this->threads,
             'baseClock' => $this->base_clock,
             'turboClock' => $this->turbo_clock,
-            'baseClock2' => $this->base_clock,
+            'baseClock2' => $this->base_clock2,
             'turboClock2' => $this->turbo_clock2,
             'memoryType' => ["id" => $cpuMemory->id,"name" => $cpuMemory->name],
             'memorySpeed' => $this->memory_speed,
@@ -39,6 +43,7 @@ class CpuResource extends JsonResource
             'memory2Speed' => $this->memory2_speed,
             'hyperthreadingSupport' => $this->hyperthread_support,
             'tdp' => $this->tdp,
+            'pcieVersion' => $this->pcie_version,
             'caches' => $this->caches,
             'maxTemp' => $this->max_temp,
             'supportedOs' => $this->supported_os,
@@ -49,5 +54,9 @@ class CpuResource extends JsonResource
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
         ];
+        if(strtolower($cpu['brand']['name']) === "amd"){
+            unset($cpu['baseClock2'], $cpu['turboClock2'], $cpu['memory2Type'], $cpu['memory2Speed']);
+        }
+        return $cpu;
     }
 }

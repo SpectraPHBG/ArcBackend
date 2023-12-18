@@ -49,7 +49,7 @@ class M2SSDController extends Controller
      */
     public function show($id)
     {
-        return new M2SSDResource(M2SSDResource::findOrFail($id));
+        return new M2SSDResource(M2SSD::findOrFail($id));
     }
 
     /**

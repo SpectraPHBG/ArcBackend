@@ -35,7 +35,6 @@ class LiquidCoolerResource extends JsonResource
             'fanConsumption' => $this->fan_consumption,
             'fanNoise' => $this->pump_noise,
             'pumpRpm' => $this->pump_rpm,
-            'pumpConsumption' => $this->pump_consumption,
             'pumpNoise' => $this->pump_noise,
             'tubeLength' => $this->tube_length,
             'rgb' => $this->rgb,

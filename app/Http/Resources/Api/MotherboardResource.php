@@ -8,6 +8,7 @@ use App\Models\ExpansionSlot;
 use App\Models\ExpansionSlotMotherboard;
 use App\Models\FormFactor;
 use App\Models\MemoryType;
+use App\Models\MotherboardMemorySupport;
 use App\Models\Socket;
 use App\Models\StorageInterface;
 use App\Models\StorageInterfaceMotherboard;
@@ -30,6 +31,8 @@ class MotherboardResource extends JsonResource
         $socket = Socket::findOrFail($this->socket_id);
         $chipset = Chipset::findOrFail($this->chipset_id);
         $memoryType = MemoryType::findOrFail($this->memory_type_id);
+
+        $supportedFrequencies = MotherboardMemorySupport::where('board_id',$this->id)->get();
 
         $expansionSlotLinks = ExpansionSlotMotherboard::where('motherboard_id',$this->id)->get();
         $availableExpansionSlots = array();
@@ -66,7 +69,7 @@ class MotherboardResource extends JsonResource
             'socket' => ["id" => $socket->id,"name" => $socket->name],
             'chipset' => ["id" => $chipset->id,"name" => $chipset->name],
             'memoryType' => ["id" => $memoryType->id,"name" => $memoryType->name],
-            'memoriesSupport' => $this->memories_support,
+            'memoriesSupport' => $supportedFrequencies,
             'maxMemory' => $this->max_memory,
             'memorySlots' => $this->memory_slots,
             'dualChSupport' => $this->dual_ch_support,
@@ -76,6 +79,7 @@ class MotherboardResource extends JsonResource
             'onboardAudio' => $this->onboard_audio,
             'onboardLan' => $this->onboard_lan,
             'ioPorts' => $this->io_ports,
+            'ioConnectors' => $this->io_connectors,
             'usbPorts' => $this->usb_ports,
             'imageLink' => $this->image_link,
             'led' => $this->led,

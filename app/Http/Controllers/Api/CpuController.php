@@ -53,6 +53,19 @@ class CpuController extends Controller
     }
 
     /**
+     * Display the latest X number of resources.
+     *
+     * @param  int  $count
+     * @return CpuCollection
+     */
+    public function random($brand,$count)
+    {
+        return new CpuCollection(Cpu::where('name','like',$brand.'%')->inRandomOrder()
+            ->take($count)
+            ->get());
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id

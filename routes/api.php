@@ -55,6 +55,7 @@ Route::get('/hdds/{id}', [HDDController::class, 'show']);
 
 Route::get('/cpus', [CpuController::class, 'index']);
 Route::get('/cpus/{id}', [CpuController::class, 'show']);
+Route::get('/cpus/random/{brand}/{count}', [CpuController::class, 'random']);
 
 Route::get('/powerSupplies', [PowerSupplyController::class, 'index']);
 Route::get('/powerSupplies/{id}', [PowerSupplyController::class, 'show']);
@@ -72,3 +73,7 @@ Route::get('/cases', [PCCaseController::class, 'index']);
 Route::get('/cases/{id}', [PCCaseController::class, 'show']);
 
 Route::post('/compatibilityCheck', [RigController::class, 'check']);
+Route::get('/getUserPcs', [RigController::class, 'index']);
+Route::post('/savePc', [RigController::class, 'store']);
+Route::post('/buildPc', [RigController::class, 'build']);
+Route::delete('/deletePc/{id}', [RigController::class, 'destroy']);
